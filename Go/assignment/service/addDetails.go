@@ -28,13 +28,13 @@ func NewHandler(userService UserService) *Handler {
 
 func (h *Handler) AddDetails(ctx *gin.Context) {
 	body := UserDetails{}
-	
+
 	if err := ctx.BindJSON(&body); err != nil {
 		ctx.JSON(http.StatusInternalServerError, models.ErrHandler("Error in decoding json"))
 		return
 	}
-	
-	userDetails, err := h.userService.AddUser(&body)
+
+	_, err := h.userService.AddUser(&body)
 	if err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			for _, err := range validationErrors {
@@ -46,6 +46,6 @@ func (h *Handler) AddDetails(ctx *gin.Context) {
 		ctx.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-	
-	ctx.JSON(http.StatusCreated, userDetails)
+
+	ctx.JSON(http.StatusCreated, models.SuccessResponse("Successfully created user"))
 }
