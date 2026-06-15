@@ -1,0 +1,40 @@
+// You can edit this code!
+// Click here and start typing.
+
+//Pseudo Code
+
+package main
+
+import "fmt"
+
+func main() {
+	//list of integers [],[],[]
+	//send them to sort()
+	//starts goroutines which will sort the integers
+	//send them back via channel
+	
+	a:= [5,2,9,1]
+ 	b:=[8,3,7,4]
+	c:=[10,6,12,11]
+	
+	var wg sync.WaitGroup
+	
+	ch := make(chan []int)
+	//for loop to send this list
+	//within the for loop add weight to the waitgroup
+	// wg.Add(i)
+	//within the for loop go sort(list,ch,*wg)
+	
+	<-ch
+	
+	wg.Wait()
+}
+
+func sort(list []int,ch chan,&wg){
+defer wg.Done()
+//sort the list via a sorting algo
+
+//once sorted I can send back the list
+ ch<-list
+
+}
